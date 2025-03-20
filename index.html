@@ -1,26 +1,10 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Missive Integration</title>
+    <script src="https://integrations.missiveapp.com/missive.js"></script>
     <link
       href="https://integrations.missiveapp.com/missive.css"
       rel="stylesheet"
     />
-    <script src="https://integrations.missiveapp.com/missive.js"></script>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-      }
-      .context-data {
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 5px;
-      }
-    </style>
   </head>
   <body>
     <h1>Missive Context Data</h1>
@@ -28,7 +12,7 @@
       <p>Loading context data...</p>
     </div>
 
-    <script>
+    <script type="text/javascript">
       function displayContextData(context) {
         const contextDiv = document.getElementById("context");
         if (!context || !context.conversation) {
@@ -37,16 +21,15 @@
         }
 
         contextDiv.innerHTML = `
-                <h2>Conversation ID: ${context.conversation.id}</h2>
-                <p><strong>Subject:</strong> ${context.conversation.subject}</p>
-                <p><strong>Participants:</strong> ${context.conversation.participants
-                  .map((p) => p.name)
-                  .join(", ")}</p>
-                <p><strong>Last Message:</strong> ${
-                  context.conversation.last_message?.snippet ||
-                  "No messages yet"
-                }</p>
-            `;
+      <h2>Conversation ID: ${context.conversation.id}</h2>
+      <p><strong>Subject:</strong> ${context.conversation.subject}</p>
+      <p><strong>Participants:</strong> ${context.conversation.participants
+        .map((p) => p.name)
+        .join(", ")}</p>
+      <p><strong>Last Message:</strong> ${
+        context.conversation.last_message?.snippet || "No messages yet"
+      }</p>
+    `;
       }
 
       Missive.on("context", function (context) {

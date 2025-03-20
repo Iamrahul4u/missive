@@ -19,7 +19,7 @@
     <script type="text/javascript">
       function displayContextData(conversations) {
         const contextDiv = document.getElementById("context");
-
+        console.log(conversations);
         if (!conversations || conversations.length === 0) {
           contextDiv.innerHTML = "<p>Error: No conversation data received.</p>";
           return;

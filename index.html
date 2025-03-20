@@ -29,25 +29,31 @@
     </div>
 
     <script>
-      // Function to display context data
       function displayContextData(context) {
         const contextDiv = document.getElementById("context");
+        if (!context || !context.conversation) {
+          contextDiv.innerHTML = "<p>Error: No context received.</p>";
+          return;
+        }
+
         contextDiv.innerHTML = `
-          <h2>Conversation ID: ${context.conversation.id}</h2>
-          <p><strong>Subject:</strong> ${context.conversation.subject}</p>
-          <p><strong>Participants:</strong> ${context.conversation.participants
-            .map((p) => p.name)
-            .join(", ")}</p>
-          <p><strong>Last Message:</strong> ${
-            context.conversation.last_message.snippet
-          }</p>
-        `;
+                <h2>Conversation ID: ${context.conversation.id}</h2>
+                <p><strong>Subject:</strong> ${context.conversation.subject}</p>
+                <p><strong>Participants:</strong> ${context.conversation.participants
+                  .map((p) => p.name)
+                  .join(", ")}</p>
+                <p><strong>Last Message:</strong> ${
+                  context.conversation.last_message?.snippet ||
+                  "No messages yet"
+                }</p>
+            `;
       }
 
-      // Listen for the 'context' event from Missive
       Missive.on("context", function (context) {
         displayContextData(context);
       });
+
+      Missive.ready();
     </script>
   </body>
 </html>

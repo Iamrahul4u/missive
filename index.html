@@ -44,11 +44,9 @@
         `;
       }
 
-      // Initialize Missive API and request context data
-      Missive.on("load", function () {
-        Missive.fetchContext().then(function (context) {
-          displayContextData(context);
-        });
+      // Listen for the 'context' event from Missive
+      Missive.on("context", function (context) {
+        displayContextData(context);
       });
     </script>
   </body>

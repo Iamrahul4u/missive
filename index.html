@@ -9,6 +9,18 @@
       rel="stylesheet"
     />
     <script src="https://integrations.missiveapp.com/missive.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .context-data {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+      }
+    </style>
   </head>
   <body>
     <h1>Missive Context Data</h1>
@@ -21,30 +33,23 @@
       function displayContextData(context) {
         const contextDiv = document.getElementById("context");
         contextDiv.innerHTML = `
-        <h2>Conversation ID: ${context.conversation.id}</h2>
-        <p><strong>Subject:</strong> ${context.conversation.subject}</p>
-        <p><strong>Participants:</strong> ${context.conversation.participants
-          .map((p) => p.name)
-          .join(", ")}</p>
-        <p><strong>Last Message:</strong> ${
-          context.conversation.last_message.snippet
-        }</p>
-      `;
+          <h2>Conversation ID: ${context.conversation.id}</h2>
+          <p><strong>Subject:</strong> ${context.conversation.subject}</p>
+          <p><strong>Participants:</strong> ${context.conversation.participants
+            .map((p) => p.name)
+            .join(", ")}</p>
+          <p><strong>Last Message:</strong> ${
+            context.conversation.last_message.snippet
+          }</p>
+        `;
       }
 
-      // Listen for the 'context' event from Missive
-      window.addEventListener(
-        "message",
-        function (event) {
-          if (event.data && event.data.type === "context") {
-            displayContextData(event.data.context);
-          }
-        },
-        false
-      );
-
-      // Request context data from Missive
-      window.parent.postMessage({ type: "request_context" }, "*");
+      // Initialize Missive API and request context data
+      Missive.on("load", function () {
+        Missive.fetchContext().then(function (context) {
+          displayContextData(context);
+        });
+      });
     </script>
   </body>
 </html>
